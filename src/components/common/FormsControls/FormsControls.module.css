@@ -2,15 +2,17 @@
 
 .formControl.error input,
 .formControl.error textarea {
-    border: solid red 1px;
+    border: solid red 2px;
 }
 
-.formControl.error span {
+.formControl.error p {
     color: red;
+    margin: 0;
+    font-size: 14px;
 }
 
 .formSummeryError {
-    border: red 1px solid;
+    border: red 2px solid;
     padding: 5px;
     color: red;
 }

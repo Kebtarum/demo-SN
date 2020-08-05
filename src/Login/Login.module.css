@@ -1,0 +1,43 @@
+.loginContent{
+    display: flex;
+    flex-direction: row;
+    
+    
+}
+.test input{
+    margin:14px auto;
+    padding: 14px 10px;
+    border: 2px solid royalblue;
+    border-radius: 14px;
+}
+.test input[type="checkbox"]{
+    display: inline-block;
+}
+.loginContentFirstChild{
+    flex-grow: 1;
+
+    
+}
+
+.loginContentButton{
+    margin:14px auto;
+    padding: 14px 10px;
+    background-color: royalblue ;
+    border-radius: 14px;
+    width: 100%;
+    font-size: 24;
+    font-weight: 600;
+    color: white;
+}
+
+.loginContentFirstChild input{
+    margin:20px auto;
+    
+    
+}
+
+.loginContentSecondChild{
+    flex-grow: 1;
+    text-align: center;
+    align-self: center;
+}

@@ -5,12 +5,13 @@ import { required } from '../utils/validators/validators';
 import {login} from '../redux/auth-reducer'
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
-import s from '../components/common/FormsControls/FormsControls.module.css'
+import s from '../components/common/FormsControls/FormsControls.module.css';
+import style from './Login.module.css';
 
-const LoginForm = ({handleSubmit, error}) => {
+const LoginForm = ({handleSubmit, error, captchaUrl}) => {
     return (
 
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} className={style.test}>
             {createNewField("Email", "email", [required], Input)}
             {createNewField("Password", "password", [required], Input, {type: 'password'})}
             {createNewField(null, "rememberMe", null, Input, {type: 'checkbox'}, "remember me")}
@@ -28,11 +29,14 @@ const LoginForm = ({handleSubmit, error}) => {
                 <Field component={Input} name={'rememberMe'} type={"checkbox"} 
                 />
             </div> */}
+            {captchaUrl && <img src={captchaUrl} />}
+            {captchaUrl && createNewField("Symbols from image", "captcha", [required], Input)}
+            
             {error && <div className={s.formSummeryError}>
                             {error}
             </div>}
             <div>
-                <button>Login</button>
+                <button className={style.loginContentButton}>Login</button>
             </div>
         </form>
 
@@ -47,7 +51,7 @@ const LoginReduxForm = reduxForm({
 const Login = (props) => {
     
     const onSubmit = (formData) =>{
-        props.login(formData.email, formData.password, formData.rememberMe)
+        props.login(formData.email, formData.password, formData.rememberMe, formData.captcha)
     }
 
     if(props.isAuth) {
@@ -55,9 +59,18 @@ const Login = (props) => {
     }
 
     return (
-        <div>
-            <h1>LOGIN</h1>
-            <LoginReduxForm onSubmit={onSubmit} />
+        <div className={style.loginContent}>
+            <div className={style.loginFirstContentChild}>
+                <h1>LOGIN</h1>
+                <LoginReduxForm onSubmit={onSubmit} captchaUrl={props.captchaUrl} />
+            </div>
+            <div className={style.loginContentSecondChild}>
+                <h2>Добро пожаловать!</h2>
+                <p>Данный проект был спроектирован исключительно для изучения ReactJS.</p>
+                <p>Для авторизации введите почту и пароль тестового аккаунта</p>
+                <h3>Email: free@samuraijs.com</h3>
+                <h3>Password: free</h3>
+            </div>
         </div>
     );
 }
@@ -65,6 +78,7 @@ const Login = (props) => {
 const mapStateToProps = (state) =>{
     return {
         isAuth: state.auth.isAuth,
+        captchaUrl: state.auth.captchaUrl,
     }
 }
 

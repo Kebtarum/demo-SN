@@ -1,4 +1,5 @@
 import { usersAPI, profileAPI } from "../api/api";
+import { stopSubmit } from "redux-form";
 
 let initialState = {
    
@@ -54,6 +55,13 @@ const profileReducer = (state = initialState, action) => {
                 status: action.status,
             };
         }
+        case "SAVE-PHOTO-SUCCESS": {
+            debugger;
+            return  {
+                ...state,
+                profile: {...state.profile, photos: action.photos}
+            };
+        }
         default: 
             return state;
 
@@ -66,7 +74,12 @@ const profileReducer = (state = initialState, action) => {
 //         newText: text,
 //     }
 // }
-export const addPostActionCreator = (newPostText) => {
+
+// export const addPostActionCreator = (newPostText) =>{{type: 'ADD-POST', newPostText}}
+// export const setUserProfile = (profile) => {{type: 'SET-USER-PROFILE', profile}}
+// export const setStatus = (status) =>{{type: 'SET-STATUS', status}}
+// export const savePhotoSuccess = (photos) =>{{type: 'SAVE-PHOTO-SUCCESS', photos}}
+export const addPostActionCreator = (newPostText) => {         // Выше короче (вроде...)
     return {
         type: 'ADD-POST',
         newPostText
@@ -82,6 +95,13 @@ export const setStatus = (status) =>{
     return{
         type: 'SET-STATUS',
         status,
+    }
+}
+export const savePhotoSuccess = (photos) =>{
+    debugger;
+    return{
+        type: 'SAVE-PHOTO-SUCCESS',
+        photos,
     }
 }
 
@@ -104,6 +124,25 @@ export const updateUserStatus = (status) => async (dispatch) => {
 
     if (data.resultCode === 0) {
         dispatch(setStatus(status));
+    }
+
+}
+export const savePhoto = (file) => async (dispatch) => {
+    const data = await profileAPI.savePhoto(file)
+    if (data.resultCode === 0) {
+        dispatch(savePhotoSuccess(data.photos));
+    }
+
+}
+export const saveProfile = (profile) => async (dispatch, getState) => {
+    const userId = getState().auth.userId;
+    const data = await profileAPI.saveProfile(profile)
+    if (data.resultCode === 0) {
+        dispatch(getUserProfile(userId));
+    } else {
+        dispatch(stopSubmit('/edit-profile', { _error: data.messages[0] }));
+        // dispatch(stopSubmit('/edit-profile', { contacts: {facebook: data.messages[0] }}));
+        return Promise.reject();
     }
 
 }

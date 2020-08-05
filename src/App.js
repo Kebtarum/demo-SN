@@ -1,7 +1,7 @@
 import React, { Suspense } from 'react';
 import './App.css';
 import Navbar from './components/Navbar/Navbar';
-import { Route, withRouter } from 'react-router-dom';
+import { Route, withRouter, HashRouter, Switch, Redirect } from 'react-router-dom';
 import UsersContainer from './components/Users/UsersContainer';
 import HeaderContainer from './components/Header/HeaderContainer';
 import Login from './Login/Login';
@@ -11,7 +11,7 @@ import { compose } from 'redux';
 import Preloader from './components/common/Preloader/Preloader';
 import store from './redux/redux-store';
 import { Provider } from 'react-redux';
-import { BrowserRouter } from 'react-router-dom';
+// import { BrowserRouter } from 'react-router-dom';
 
 // import DialogsContainer from './components/Dialogs/DialogsContainer';
 //import ProfileContainer from './components/Profile/ProfileContainer';
@@ -36,25 +36,35 @@ class App extends React.Component {
         <HeaderContainer />
         <Navbar />
         <div className="app-wrapper-content">
-          <Suspense fallback={<Preloader />}>
+          <Switch>
+          <Route exact path="/">
+              <Redirect to={"/profile"} />
+          </Route>
             <Route path="/profile/:userId?">
-              <ProfileContainer />
-              {/* <ProfileContainer store={props.store} /> */}
+              <Suspense fallback={<Preloader />}>
+                <ProfileContainer />
+                {/* <ProfileContainer store={props.store} /> */}
+              </Suspense>
             </Route>
             <Route path="/dialogs">
-              <DialogsContainer />
-              {/* <DialogsContainer store={props.store}/> */}
+              <Suspense fallback={<Preloader />}>
+                <DialogsContainer />
+                {/* <DialogsContainer store={props.store}/> */}
+              </Suspense>
             </Route>
-          </Suspense>
-          <Route path="/users">
-            <UsersContainer />
+            <Route path="/users">
+              <UsersContainer />
 
-            {/* <UsersContainer store={props.store} /> */}
+              {/* <UsersContainer store={props.store} /> */}
 
-          </Route>
-          <Route path="/login">
-            <Login />
-          </Route>
+            </Route>
+            <Route path="/login">
+              <Login />
+            </Route>
+            <Route path="*">
+              <div>404 NOT FOUND</div>
+            </Route>
+          </Switch>
           {/* <Route pasth = "/news" component = {News} />
         <Route pasth = "/music" component = {Music} />
         <Route pasth = "/settings" component = {Settings} /> */}
@@ -86,9 +96,9 @@ const FinalJSApp = (props) => {
   return (
     <React.StrictMode>
       <Provider store={store}>
-        <BrowserRouter>
+        <HashRouter>
           <AppContainer />
-        </BrowserRouter>
+        </HashRouter>
       </Provider>
     </React.StrictMode>
   )
