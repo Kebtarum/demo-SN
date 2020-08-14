@@ -1,1 +1,0 @@
-{"version":3,"sources":["Post.module.css","ProfileInfo.module.css"],"names":[],"mappings":"AAAA,kBACI,UACJ,CAEA,sBACI,UACJ,CCNA,8BACI,eACJ","file":"3.916c751e.chunk.css","sourcesContent":[".item {\r\n    color: teal;\r\n}\r\n\r\n.item img {\r\n    width: 50px;\r\n}",".mainPhoto{\r\n    max-width: 200px;\r\n}"]}
