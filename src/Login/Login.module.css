@@ -1,18 +1,53 @@
+.wrapperContent {
+    height: 100%;
+    grid-area: c;
+    margin: 20px;
+    padding: 20px;
+    border-radius: 1em;
+    background-color: rgb(255, 255, 255);
+    
+  }
+
 .loginContent{
     display: flex;
     flex-direction: row;
     
     
 }
+/* //////////////////////////////////////////////////////// */
+.formControl.error small {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    color: red;
+    margin: 0;
+    font-size: 14px;
+}
+/* //////////////////////////////////////////////////////// */
+.formItemContainer, .formItemContainerSpecial{
+    margin-bottom: 10px;
+    padding-bottom: 20px;
+    position: relative;
+}
+.formItemContainerSpecial input{
+    display: inline;
+}
+.formItemContainer small{
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    color: red;
+    margin: 0;
+    font-size: 14px;
+}
 .test input{
-    margin:14px auto;
-    padding: 14px 10px;
+    padding: 10px;
     border: 2px solid royalblue;
     border-radius: 14px;
 }
-.test input[type="checkbox"]{
+/* .test input[type="checkbox"]{
     display: inline-block;
-}
+} */
 .loginContentFirstChild{
     flex-grow: 1;
 
@@ -20,7 +55,7 @@
 }
 
 .loginContentButton{
-    margin:14px auto;
+    margin:auto;
     padding: 14px 10px;
     background-color: royalblue ;
     border-radius: 14px;
@@ -39,5 +74,5 @@
 .loginContentSecondChild{
     flex-grow: 1;
     text-align: center;
-    align-self: center;
+    /* align-self: center; */
 }

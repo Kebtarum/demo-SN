@@ -11,6 +11,7 @@ import { compose } from 'redux';
 import Preloader from './components/common/Preloader/Preloader';
 import store from './redux/redux-store';
 import { Provider } from 'react-redux';
+import s from './AppPlus.module.css'
 // import { BrowserRouter } from 'react-router-dom';
 
 // import DialogsContainer from './components/Dialogs/DialogsContainer';
@@ -33,8 +34,11 @@ class App extends React.Component {
     return (
 
       <div className="app-wrapper">
+     
         <HeaderContainer />
-        <Navbar />
+        <div className="app-wrapper-navbar">
+          <Navbar />
+        </div>
         <div className="app-wrapper-content">
           <Switch>
           <Route exact path="/">
@@ -62,7 +66,7 @@ class App extends React.Component {
               <Login />
             </Route>
             <Route path="*">
-              <div>404 NOT FOUND</div>
+              <div className={s.wrapperContent}>404 NOT FOUND</div>
             </Route>
           </Switch>
           {/* <Route pasth = "/news" component = {News} />

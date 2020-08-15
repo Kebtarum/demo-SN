@@ -56,7 +56,7 @@ const profileReducer = (state = initialState, action) => {
             };
         }
         case "SAVE-PHOTO-SUCCESS": {
-            debugger;
+            
             return  {
                 ...state,
                 profile: {...state.profile, photos: action.photos}
@@ -98,7 +98,6 @@ export const setStatus = (status) =>{
     }
 }
 export const savePhotoSuccess = (photos) =>{
-    debugger;
     return{
         type: 'SAVE-PHOTO-SUCCESS',
         photos,
@@ -130,7 +129,7 @@ export const updateUserStatus = (status) => async (dispatch) => {
 export const savePhoto = (file) => async (dispatch) => {
     const data = await profileAPI.savePhoto(file)
     if (data.resultCode === 0) {
-        dispatch(savePhotoSuccess(data.photos));
+        dispatch(savePhotoSuccess(data.data.photos));
     }
 
 }
@@ -139,11 +138,21 @@ export const saveProfile = (profile) => async (dispatch, getState) => {
     const data = await profileAPI.saveProfile(profile)
     if (data.resultCode === 0) {
         dispatch(getUserProfile(userId));
-    } else {
-        dispatch(stopSubmit('/edit-profile', { _error: data.messages[0] }));
-        // dispatch(stopSubmit('/edit-profile', { contacts: {facebook: data.messages[0] }}));
-        return Promise.reject();
-    }
+    // } else {
+    //     dispatch(stopSubmit('/edit-profile', { _error: data.messages[0] }));
+    //     // dispatch(stopSubmit('/edit-profile', { contacts: {facebook: data.messages[0] }}));
+    //     return Promise.reject()
+    // }
+    }else {
+                let wrongNetwork = data.messages[0]    
+                  .slice(    
+                    data.messages[0].indexOf(">") + 1,    
+                    data.messages[0].indexOf(")")    
+                  )    
+                  .toLocaleLowerCase();    
+                dispatch(stopSubmit("/edit-profile", {contacts: {[wrongNetwork]: data.messages[0] }}) );    
+                return Promise.reject(data.messages[0]);    
+              }
 
 }
 

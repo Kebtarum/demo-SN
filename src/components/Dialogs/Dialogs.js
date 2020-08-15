@@ -1,6 +1,7 @@
 import React from 'react'
 import s from './Dialogs.module.css'
-
+import sPlus from '../../AppPlus.module.css'
+import cn from 'classnames'
 import DialogItem from './DialogItem/DialogItem'
 import MessageItem from './MessageItem/MessageItem'
 import AddMessageFormRedux from './AddMessageForm/AddMessageForm'
@@ -35,7 +36,7 @@ function Dialogs(props) {
     }
 
     return (
-        <div className={s.dialogs}>
+        <div className={cn(s.dialogs,sPlus.wrapperContent)}>
             <div className={s.dialogsItem}>
                 {dialogsElemenets}
 

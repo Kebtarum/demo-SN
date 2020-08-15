@@ -1,76 +1,142 @@
 import React, { useState } from 'react';
 import s from './ProfileInfo.module.css';
+import sPlus from '../../../AppPlus.module.css'
+import cn from 'classnames';
 import Preloader from '../../common/Preloader/Preloader';
 import ProfileStatusWithHooks from './ProfileStatusWithHooks';
 import userPhoto from '../../../assets/images/userPhoto.jpg';
-import ProfileDataForm from './ProfileDataForm';
+import ProfileDataReduxForm from './ProfileDataForm';
+import PopupReduxForm from '../../common/Popup/Popup';
 
-const Contact = ({contactTitle, contactValue}) => {
+
+
+const Contact = ({ contactTitle, contactValue }) => {
     return (
-        <div><b>{contactTitle}:</b>{contactValue}</div>
+        <div className={cn(s.marginBottom, s.flexChild)}>
+        {/* <b>{contactTitle}:</b>{contactValue} */}
+        
+        {contactValue ? 
+        <a href={`${contactValue}`} target="_blank" rel="noopener noreferrer">{contactTitle}</a>
+        : <span>{contactTitle}</span>
+        }
+        </div>
+        
     )
 }
 
-const ProfileData = ({profile, isOwner, goToEditMod}) => {
+const ProfileData = ({ profile, isOwner, goToEditMod, status, updateUserStatus }) => {
     return (
         <div>
-            {isOwner && <div><button onClick={goToEditMod}>edit</button></div>}
+            {/* {isOwner && <div><button onClick={goToEditMod}>edit</button></div>} */}
+
             <div>
-                <b>Full name:</b> {profile.fullName}
+                <span className={s.mainName}>{profile.fullName}</span>
             </div>
-            <div>
-                <b>Looking for a job:</b> {profile.lookingForAJob ? 'yes' : 'no'}
-            </div>
-            {profile.lookingForAJob &&
-                <div>
-                    <b>My professional skills:</b> {profile.lookingForAJobDescription}
+            <ProfileStatusWithHooks status={status} updateUserStatus={updateUserStatus} />
+            <div className={s.profileInformation}>
+                <div className={s.profileInformationContainer}>
+                    <div className={s.marginBottom}>
+                        <span><b>PROFILE INFORMATION</b></span>
+                    </div>
+                    <div className={s.marginBottom}>
+                        <b>Looking for a job:</b> {profile.lookingForAJob ? 'yes' : 'no'}
+                    </div>
+                    {profile.lookingForAJob &&
+                        <div className={s.marginBottom}>
+                            <b>My professional skills:</b> {profile.lookingForAJobDescription}
+                        </div>
+                    }
+                    <div className={s.marginBottom}>
+                        <b>About me:</b> {profile.aboutMe}
+                    </div>
                 </div>
-            }
-            <div>
-                <b>About me:</b> {profile.aboutMe}
-            </div>
-            <div>
-                <b>Contacts:</b> {Object.keys(profile.contacts).map(key => {
-                    return <Contact key={key} contactTitle={key} contactValue={profile.contacts[key]} />
-                })}
+                <div className={s.contactsContainer}>
+                <div className={s.marginBottom}>
+                <span><b>CONTACTS</b></span>
+                </div >
+                    <div className={s.flexContainer}>
+                    {Object.keys(profile.contacts).map(key => {
+                        return <Contact key={key} contactTitle={key} contactValue={profile.contacts[key]} />
+                    })}
+                    </div>
+                </div>
             </div>
         </div>
     )
 }
 
-function ProfileInfo(props) {
+function ProfileInfo({ isOwner, profile, status, updateUserStatus, savePhoto, saveProfile }) {
 
-    let [editMode, setEditMode] = useState(false); 
+    let [editMode, setEditMode] = useState(false);
+    let [showPopup, setShowPopup] = useState(false);
 
-    if (!props.profile) {
+    if (!profile) {
         return <Preloader />
     }
-    
-    const onMainPhotoSelected = (e) => {
-        if(e.target.files.length){
-            props.savePhoto(e.target.files[0]);
-        }
-    }
-    
+
+    // const onMainPhotoSelected = (e) => {
+    //     if (e.target.files.length) {
+    //         bufPhoto = e.target.files[0]
+    //     }
+    // }
+
+
     const onSubmit = (formData) => {
-        props.saveProfile(formData)
-        .then(()=>{
-            setEditMode(false);
-        })
-        
+        saveProfile(formData)
+            .then(() => {
+                setEditMode(false);
+                console.log("сработал THEN")
+            })
+            .catch(() => {
+                setEditMode(true);
+                console.log("сработал CATCH")
+            })
+
+    }
+
+    const onSubmitPhoto = (formData) => {
+        // console.log(formData.photoFile[0]);
+        // debugger;
+        savePhoto(formData.photoFile[0]);
+        setShowPopup(!showPopup);
+
+    }
+
+    const togglePopup = () => {
+        setShowPopup(!showPopup);
     }
 
     return (
-        <div className={s.discriptionBlock}>
-            <img src={props.profile.photos.large || userPhoto} className={s.mainPhoto} />
-            {props.isOwner && <input type={"file"} onChange={onMainPhotoSelected} />}
-            {editMode ? <ProfileDataForm initialValues={props.profile} profile={props.profile} onSubmit={onSubmit} /> 
-            : <ProfileData profile={props.profile} isOwner={props.isOwner} 
-                goToEditMod={() => {setEditMode(true)}}
-            />}
-            
-            <ProfileStatusWithHooks status={props.status} updateUserStatus={props.updateUserStatus} />
-            
+        <div className={s.content}>
+            <div className={cn(s.contentFirstItem, sPlus.wrapperContentOne)}>
+                <img src={profile.photos.large || userPhoto} className={s.mainPhoto} />
+                {isOwner && <button className={s.button} onClick={togglePopup}>Change photo</button>}
+                {/* {isOwner && <input type={"file"} onChange={onMainPhotoSelected} />} */}
+                {isOwner && <div><button className={s.button} disabled={editMode} onClick={setEditMode}>edit</button></div>}
+                {showPopup ? <PopupReduxForm closePopup={togglePopup}
+                    onSubmit={onSubmitPhoto}
+                />
+                    : null
+                }
+            </div>
+            <div className={cn(s.contentSecondItem, sPlus.wrapperContentOne)}>
+                {/* <div className={s.contentSecondItem}>
+                    {profile.fullName}
+                    <ProfileStatusWithHooks status={status} updateUserStatus={updateUserStatus} />
+                </div> */}
+                <div>
+                    {editMode ? <ProfileDataReduxForm initialValues={profile} profile={profile} onSubmit={onSubmit}
+                        status={status} updateUserStatus={updateUserStatus}
+                    />
+                        : <ProfileData profile={profile} isOwner={isOwner}
+                            goToEditMod={() => { setEditMode(true) }}
+                            status={status} updateUserStatus={updateUserStatus}
+                        />}
+                </div>
+            </div>
+
+
+
         </div>
     );
 }

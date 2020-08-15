@@ -1,16 +1,39 @@
 .nav {
-    grid-area: n;
+    margin: 8px;
+    padding: 16px;
+    border-radius: 1em;
+    background-color: rgb(255, 255, 255);
     
-    padding: 20px;
     /* background-color: rgb(42, 129, 230); */
     
 }
 
+/* .wrapperContent {
+    height: 100%;
+    grid-area: c;
+    margin: 8px;
+    padding: 16px;
+    border-radius: 1em;
+    background-color: rgb(255, 255, 255);
+    
+  } */
+
+
+
 .item a{
-    color: royalblue;
+    color: rgb(108, 109, 110);
     text-decoration: none;
 }
 
 .item a.active {
-    color: navy;
+    color: royalblue;
+}
+
+.itemInner {
+    display: grid;
+    grid-template-columns: 32px 1fr;
+}
+
+.itemInner:hover {
+    color: #1C4DDF;
 }

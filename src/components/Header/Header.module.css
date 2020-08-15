@@ -1,6 +1,6 @@
 .header{
+    margin-bottom: 8px;
     grid-area: h;
-   
     padding: 10px 20px 10px 20px;
     background-color: royalblue;
 }

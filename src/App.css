@@ -1,23 +1,39 @@
-.app-wrapper {
-  
-  width: 100vw;
-  height: 100vh;
+body {
+  margin: 0;
   background-color: #EDEEF0;
+  position: relative;
+}
+.app-wrapper {
+  width: 100%;
+  /* position:absolute;
+  top:0px;
+  right:0px;
+  bottom:0px;
+  left:0px; */
+  
   display: grid;
   grid-template-areas: 
   "h h"
   "n c";
 
-  grid-template-rows: 1fr 10fr;
+  grid-template-rows: 70px 1fr;
   grid-template-columns: 2fr 10fr;
 }
 
+.app-wrapper-navbar{
+  
+  grid-area: n;
+  /* height: 100%; */
+
+  
+}
 .app-wrapper-content {
+  min-height: 850px;
   grid-area: c;
-  margin: 20px;
+  /* margin: 20px;
   padding: 20px;
-  border-radius: 3%;
-  background-color: rgb(255, 255, 255);
+  border-radius: 1em;
+  background-color: rgb(255, 255, 255); */
   
 }
 

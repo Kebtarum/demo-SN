@@ -1,2 +1,43 @@
 
 
+/* .content{
+    display: flex;
+    flex-direction: column;
+    
+}
+.childTwo{
+    flex-grow: 1;
+} */
+
+
+
+/* 
+.content{
+    display: grid;
+  grid-template-areas: 
+  "photo info"
+  "post post";
+
+  grid-template-rows: 70px 1fr;
+  grid-template-columns: 2fr 10fr;
+}
+
+.childTwo{
+    grid-area: post;
+}
+.contentFirstItem{
+    grid-area: photo;
+}
+.contentSecondItem{
+    grid-area: info;
+} */
+
+/* .wrapperContent {
+    height: 100%;
+    grid-area: c;
+    margin: 20px;
+    padding: 20px;
+    border-radius: 1em;
+    background-color: rgb(255, 255, 255);
+    
+  } */

@@ -1,5 +1,6 @@
 import React from 'react';
 import s from './MyPosts.module.css';
+import cn from 'classnames';
 import Post from './Post/Post';
 import { reduxForm, Field } from 'redux-form';
 import { required, maxLengthCreator } from '../../../utils/validators/validators';
@@ -18,11 +19,11 @@ function MyPosts(props) {
         //props.dispatch(addPostActionCreator());
     }
 
-    let onPostChange = () => {
-        let text = newPostElement.current.value;
-        props.updateNewPostText(text);
-        //props.dispatch(updateNewPostTextActionCreator(text));
-    }
+    // let onPostChange = () => {
+    //     let text = newPostElement.current.value;
+    //     props.updateNewPostText(text);
+    //     //props.dispatch(updateNewPostTextActionCreator(text));
+    // }
 
     return (
         <div >
@@ -37,7 +38,7 @@ function MyPosts(props) {
 
 const AddNewPostForm = (props) => {
     return (
-        <form onSubmit={props.handleSubmit}>
+        <form onSubmit={props.handleSubmit} >
             <div>
                 <Field component={Textarea} name='newPostText' 
                     placeholder="something" validate={[required, maxLength10]}

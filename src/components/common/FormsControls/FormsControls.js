@@ -7,7 +7,7 @@ export const Textarea = ({input, meta, ...props}) =>{
     return(
         <div className={s.formControl + ' ' + (hasError ? s.error : '')}>
             <textarea {...input} {...props} />
-            {hasError && <p>{meta.error}</p>}
+            {hasError && <small>{meta.error}</small>}
         </div>
         
     )
@@ -18,7 +18,7 @@ export const Input = ({input, meta, ...props}) =>{
     return(
         <div className={s.formControl + ' ' + (hasError ? s.error : '')}>
             <input {...input} {...props} />
-            {hasError && <p>{meta.error}</p>}
+            {hasError && <small>{meta.error}</small>}
         </div>
         
     )
@@ -34,3 +34,21 @@ export const createNewField = (placeholder, name, validators, component, props =
         </div>
     )
 }
+
+
+///////////////////////////
+// export const FileInput = ({input: {value: omitValue, onChange, onBlur, ...inputProps,}, meta: omitMeta, ...props,}) => <input onChange={adaptFileEventToValue(onChange)} 
+//     onBlur={adaptFileEventToValue(onBlur)} type="file" {...inputProps} {...props}
+//     />
+
+export const FieldFile = ({ input, type, meta}) => {
+    delete input.value
+  
+    return (
+      <div className={s.fieldFileStyle}>
+       
+          <input {...input} type={type} id={"file"} accept={"image/jpeg,image/png,image/gif"} />
+        
+      </div>
+    )
+  }

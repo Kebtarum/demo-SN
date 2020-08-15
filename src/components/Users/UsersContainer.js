@@ -1,21 +1,25 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { follow, unfollow, setUsers, 
+import {
+    follow, unfollow, setUsers,
     setCurrentPage, setTotalUsersCount, toggleIsFetching, toggleIsFollowingProgress,
-    getUsersThunkCreator, followTC, unfollowTC } from '../../redux/usersReducer';
+    getUsersThunkCreator, followTC, unfollowTC
+} from '../../redux/usersReducer';
 
 import Users from './Users';
 import Preloader from '../common/Preloader/Preloader';
 
 import { compose } from 'redux';
-import { getUsers, getPageSize, getTotalUsersCount, 
-    getCurrentPage, getIsFetching, getFollowingInProgress} from '../../redux/users-selectors';
+import {
+    getUsers, getPageSize, getTotalUsersCount,
+    getCurrentPage, getIsFetching, getFollowingInProgress
+} from '../../redux/users-selectors';
 
 
 class UsersContainer extends React.Component {
 
     componentDidMount() {
-        let {currentPage, pageSize} = this.props;
+        let { currentPage, pageSize } = this.props;
         this.props.getUsersThunkCreator(currentPage, pageSize);
         // this.props.getUsersThunkCreator(this.props.currentPage, this.props.pageSize); без деструтуризации как выше
     }
@@ -28,9 +32,8 @@ class UsersContainer extends React.Component {
     render() {
         return (
             <>
-            {this.props.isFetching ? 
-            <Preloader />: null}
-                <Users
+                {this.props.isFetching ?
+                    <Preloader /> : <Users
                     totalUsersCount={this.props.totalUsersCount}
                     pageSize={this.props.pageSize}
                     currentPage={this.props.currentPage}
@@ -40,9 +43,10 @@ class UsersContainer extends React.Component {
                     // unfollow={this.props.unfollow}                      
                     // toggleIsFollowingProgress={this.props.toggleIsFollowingProgress}
                     followingInProgress={this.props.followingInProgress}
-                    followTC = {this.props.followTC}
-                    unfollowTC = {this.props.unfollowTC}
-                />
+                    followTC={this.props.followTC}
+                    unfollowTC={this.props.unfollowTC}
+                />}
+                
             </>)
     }
 }
@@ -77,11 +81,13 @@ let mapStateToProps = (state) => {
 //         getUsersThunkCreator, followTC, unfollowTC})(UsersContainer)
 
 export default compose(
-    connect (mapStateToProps,
-        {follow, unfollow, setUsers, 
+    connect(mapStateToProps,
+        {
+            follow, unfollow, setUsers,
             setCurrentPage, toggleIsFetching, toggleIsFollowingProgress, setTotalUsersCount,
-            getUsersThunkCreator, followTC, unfollowTC}),
-          
+            getUsersThunkCreator, followTC, unfollowTC
+        }),
+
 )(UsersContainer);
 
     // let mapDispatchToProps = (dispatch) => {

@@ -7,14 +7,16 @@ import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import s from '../components/common/FormsControls/FormsControls.module.css';
 import style from './Login.module.css';
+import sPlus from '../AppPlus.module.css'
+import cn from 'classnames';
 
 const LoginForm = ({handleSubmit, error, captchaUrl}) => {
     return (
 
-        <form onSubmit={handleSubmit} className={style.test}>
-            {createNewField("Email", "email", [required], Input)}
-            {createNewField("Password", "password", [required], Input, {type: 'password'})}
-            {createNewField(null, "rememberMe", null, Input, {type: 'checkbox'}, "remember me")}
+        <form onSubmit={handleSubmit} className={cn(style.test) }>
+            <div className={style.formItemContainer}>{createNewField("Email", "email", [required], Input)}</div>
+            <div className={style.formItemContainer}>{createNewField("Password", "password", [required], Input, {type: 'password'})}</div>
+            <div className={style.formItemContainerSpecial}>{createNewField(null, "rememberMe", null, Input, {type: 'checkbox'}, "remember me")}</div>
             {/* <div>                   Вместо этого мы сделали функцию которая создает данный Field с дивками
                 <Field component={Input} name={'email'} placeholder={"Email"} 
                     validate={[required]}
@@ -32,8 +34,8 @@ const LoginForm = ({handleSubmit, error, captchaUrl}) => {
             {captchaUrl && <img src={captchaUrl} />}
             {captchaUrl && createNewField("Symbols from image", "captcha", [required], Input)}
             
-            {error && <div className={s.formSummeryError}>
-                            {error}
+            {error && <div className={s.formSummeryErrorParent}>
+                            <div className={s.formSummeryError}>{error} </div>
             </div>}
             <div>
                 <button className={style.loginContentButton}>Login</button>
@@ -59,9 +61,9 @@ const Login = (props) => {
     }
 
     return (
-        <div className={style.loginContent}>
+        <div className={cn(style.loginContent, sPlus.wrapperContent)}>
             <div className={style.loginFirstContentChild}>
-                <h1>LOGIN</h1>
+                <h2>LOGIN</h2>
                 <LoginReduxForm onSubmit={onSubmit} captchaUrl={props.captchaUrl} />
             </div>
             <div className={style.loginContentSecondChild}>
